@@ -1,1 +1,1761 @@
+<!DOCTYPE html>
+<html lang="ko">
 
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KCBS 시카고 | 기독교 라디오</title>
+  <meta name="description" content="KCBS 시카고 - 한국 기독교 방송국" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3730a3;
+      --accent-color: #0891b2;
+      --accent-light: #0284c7;
+      --warm-accent: #dc2626;
+      --gold-accent: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-dark: #1f2937;
+      --surface: rgba(255, 255, 255, 0.1);
+      --surface-hover: rgba(255, 255, 255, 0.15);
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.2);
+      --header-height: 100px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      animation: logoSpin 2s linear infinite;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--text-primary);
+      border-radius: 50%;
+      margin: 0 auto 1rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Content */
+    #main-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease-in-out;
+    }
+
+    #main-content.loaded {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      transform: translateY(-100%);
+      animation: slideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.3s;
+    }
+
+    .header.animate-in {
+      animation: slideDownHeader 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes slideDownHeader {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      opacity: 0;
+      transform: scale(0.5) rotate(-180deg);
+    }
+
+    .logo.animate-in {
+      animation: logoAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+    }
+
+    @keyframes logoAppear {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .nav-link.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .nav-link:nth-child(1).animate-in { animation-delay: 0.5s; }
+    .nav-link:nth-child(2).animate-in { animation-delay: 0.6s; }
+    .nav-link:nth-child(3).animate-in { animation-delay: 0.7s; }
+    .nav-link:nth-child(4).animate-in { animation-delay: 0.8s; }
+    .nav-link:nth-child(5).animate-in { animation-delay: 0.9s; }
+    .nav-link:nth-child(6).animate-in { animation-delay: 1.0s; }
+
+    @keyframes navItemSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 80%;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+        activePulse 2s ease-in-out infinite 2s;
+    }
+
+    @keyframes activePulse {
+      0%, 100% {
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 25px rgba(30, 64, 175, 0.5);
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 70vh;
+      width: 100%;
+      max-width: 1000px;
+      margin: calc(var(--header-height) + 40px) auto 40px auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+    }
+
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      background: var(--primary-color);
+      border-radius: 24px;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg,
+          rgba(30, 64, 175, 0.1) 0%,
+          rgba(55, 48, 163, 0.1) 50%,
+          rgba(8, 145, 178, 0.1) 100%);
+      border-radius: 24px;
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff6347 0%, #ff7f50 50%, #d73527 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: #fef2f2;
+      line-height: 1.6;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    /* Sections */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-description {
+      text-align: center;
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .welcome-section,
+    .location-section,
+    .team-section,
+    .president-section {
+      padding: 6rem 0;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .welcome-section {
+      padding-top: 4rem;
+    }
+
+    .welcome-section.visible,
+    .location-section.visible,
+    .team-section.visible,
+    .president-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Studio Photo */
+    .studio-image-wrapper {
+      margin-top: 3rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    .studio-photo {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .studio-photo:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    /* President Section */
+    .president-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .president-card {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .president-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+      border-color: var(--gold-accent);
+    }
+
+    .president-image-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .president-image {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .president-image img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold-accent);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .president-image:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.5);
+    }
+
+    .president-badge {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: linear-gradient(45deg, var(--gold-accent), #f97316);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .president-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .president-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--gold-accent), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .president-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .president-role {
+      color: var(--accent-color);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .president-message blockquote {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      font-style: italic;
+      position: relative;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      border-left: 4px solid var(--gold-accent);
+    }
+
+    .president-signature {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .signature-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-accent), transparent);
+    }
+
+    .signature-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--gold-accent);
+      font-family: cursive;
+    }
+
+    .president-credentials {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .credential-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      color:white;
+    }
+
+    .credential-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(8px);
+    }
+
+    .credential-item ion-icon {
+      font-size: 1.25rem;
+      color: var(--accent-color);
+    }
+
+    /* Location Section */
+    .quick-actions {
+      margin-bottom: 2rem;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows:1fr;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    .action-button:hover {
+      background: var(--surface-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(30, 64, 175, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .action-button ion-icon {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .action-button:hover ion-icon {
+      transform: scale(1.1);
+      color: var(--accent-light);
+    }
+
+    /* Map Container */
+    .map-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
+    }
+
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .map-info h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .map-info p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .map-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .map-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .map-btn.active {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      color: var(--text-primary);
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    .map-btn:hover:not(.active) {
+      background: var(--surface);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(8, 145, 178, 0.2);
+    }
+
+    .map-wrapper {
+      position: relative;
+      height: 400px;
+    }
+
+    .map-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .street-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    /* Contact Info */
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .contact-card:hover {
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.15);
+      border-color: var(--accent-color);
+    }
+
+    .contact-card ion-icon {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      flex-shrink: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .contact-card:hover ion-icon {
+      color: var(--accent-light);
+      transform: scale(1.05);
+    }
+
+    .contact-card h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text-primary);
+    }
+
+    .contact-card p {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Team Section */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .team-member {
+      text-align: center;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .team-member.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .team-member:hover {
+      background: var(--surface-hover);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(30, 64, 175, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .member-image {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .member-image img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .team-member:hover .member-image img {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+      border-color: var(--accent-color);
+    }
+
+    .member-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .team-member:hover .member-overlay {
+      opacity: 1;
+    }
+
+    .member-overlay span {
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .team-member h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .team-member p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive Design - Now consistent with play.html */
+    @media (max-width: 1024px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-height: 140px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        height: 50vh;
+        max-width: 600px;
+        margin: calc(var(--header-height) + 20px) auto 20px auto;
+        padding: 0 20px;
+        border-radius: 16px;
+      }
+
+      .hero-background,
+      .hero-slide,
+      .hero-slide img,
+      .hero-overlay {
+        border-radius: 16px;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      .president-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+        padding: 2rem 1rem;
+      }
+
+      .president-image img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .team-member {
+        padding: 1rem;
+      }
+
+      .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .map-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .contact-info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --header-height: 160px;
+      }
+
+      .hero {
+        height: 20vh;
+        max-width: calc(100vw - 40px); /* Add side margins for border radius */
+        width: calc(100vw - 40px);
+        margin: calc(var(--header-height) + 80px) 20px 80px 20px; /* Add side margins */
+        padding: 0;
+        border-radius: 12px; /* Restore border radius */
+      }
+
+      .hero-background,
+      .hero-slide,
+      .hero-slide img,
+      .hero-overlay {
+        border-radius: 12px; /* Restore border radius to match container */
+      }
+
+      .hero-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .hero-content {
+        padding: 1rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+      }
+
+      .president-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .president-image img {
+        width: 120px;
+        height: 120px;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Focus styles for accessibility */
+    .nav-link:focus,
+    .action-button:focus {
+      outline: 2px solid var(--gold-accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" class="loading-logo" />
+      <div class="loading-spinner"></div>
+      <p class="loading-text" id="loading-text">콘텐츠 로딩 중...</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="history.html" class="logo-link">
+        <img class="logo" id="logo" src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" />
+      </a>
+      <nav class="nav" id="nav">
+        <a class="nav-link active" href="index.html">홈</a>
+        <a class="nav-link" href="play.html">프로그램</a>
+        <a class="nav-link" href="schedule.html">일정</a>
+        <a class="nav-link" href="messages.html">연락처</a>
+        <a class="nav-link" href="directors.html">감독들</a>
+        <a class="nav-link" href="contributors.html">기여자</a>
+      </nav>
+    </div>
+  </header>
+  
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-background">
+        <div class="hero-slide active">
+          <img src="https://i.postimg.cc/RFkf6ZTN/carousel-1.png" alt="Radio Studio" />
+        </div>
+        <div class="hero-slide">
+          <img src="https://i.postimg.cc/cJCkGRFm/Talking-group-2.jpg" alt="Broadcasting Team" />
+        </div>
+        <div class="hero-slide">
+          <img src="https://i.postimg.cc/qvDN67J4/carousel-2.png" alt="Studio Equipment" />
+        </div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">KCBS 시카고</h1>
+        <p class="hero-subtitle">시카고 지역사회에 기독교 신앙과 한국 문화를 전파하는<br />프리미엄 방송국</p>
+      </div>
+    </section>
+
+    <!-- President Section -->
+    <section class="president-section">
+      <div class="container">
+        <div class="president-card">
+          <div class="president-image-container">
+            <div class="president-image">
+              <img src="https://i.postimg.cc/HLRp81kc/president-1.png" alt="서도권 국장" />
+              <div class="president-badge">
+                <ion-icon name="star"></ion-icon>
+                <span>국장</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="president-content">
+            <div class="president-header">
+              <h2 class="president-title">국장 인사말</h2>
+              <h3 class="president-name">서도권 국장</h3>
+              <p class="president-role">KCBS 시카고 국장 | 목사</p>
+            </div>
+
+            <div class="president-message">
+              <blockquote>
+                "환영의 인사<br>시카고 기독교 방송 웹사이트를 찾아주신 여러분을 주님의 이름으로 환영합니다.
+                시카고 기독교 방송은, 복음의 메시지를 미디어를 통해 전하고, 흩어진 이민자 공동체를 신앙으로 하나 되게 하며, 다음 세대에 믿음의 유산을 온전히 전수하는 것을 사명으로 삼고 있습니다.
+                하나님께서 허락하신 이 시대의 도전 앞에서, 저희는 기독교 미디어의 사대(四大) 사명을 품고 달려가고자 합니다:<br><br>
+                – 열방과 디아스포라를 향한 복음 전파의 통로<br><br>
+                – 말씀 안에서 다음 세대를 세우는 신앙 교육의 장<br><br>
+                – 시카고 지역 교회와 이민 공동체를 하나로 잇는 연결고리<br><br>
+                – 진리의 빛으로 사회를 밝히는 예언자적 목소리<br><br>
+                특별히 이민 1세대의 신앙의 뿌리와 2세대의 언어와 문화가 만나는 이 자리에서, 복음은 세대와 세대를 잇는 다리가 되어야 한다고 믿습니다. 시카고 기독교 방송은 그 다리의 한 가운데에서, 말씀과 찬양, 기도와 소통으로 이민 사회의 심장을 뛰게 하고자 합니다.
+                다음 세대를 위해, 우리의 자녀들을 위해, 그리고 하나님의 나라를 위하여 시카고 기독교 방송은 여러분과 함께 그 사명의 길을 
+                걸어가겠습니다. 감사합니다."
+<br><br>
+                시카고 기독교 방송국장 서도권 목사 드림
+
+
+              </blockquote>
+
+              <div class="president-signature">
+                <div class="signature-line"></div>
+                <span class="signature-text">서도권 국장</span>
+              </div>
+            </div>
+
+            <div class="president-credentials">
+              <div class="credential-item">
+                <ion-icon name="school-outline"></ion-icon>
+                <span>임마누엘 침례교회(어빙, 텍사스)에서 목사 안수 받음</span>
+              </div>
+              <div class="credential-item">
+                <ion-icon name="briefcase-outline"></ion-icon>
+                <span>2020년2월부터국장으로 섬김| 목회자로서 36년의 경력</span>
+              </div>
+              <div class="credential-item">
+                <ion-icon name="heart-outline"></ion-icon>
+                <span>크로스포인트 성서교회 담임목사 | 13년</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+      <div class="container">
+        <h2 class="section-title">전문 방송 서비스</h2>
+        <p class="section-description">
+          최첨단 방송 기술과 전문 진행진이 제공하는 고품질 콘텐츠로<br />
+          시카고 한인 커뮤니티의 신앙과 문화를 연결합니다.
+        </p>
+        
+        <div class="studio-image-wrapper">
+          <img src="https://i.postimg.cc/G9wV19Z5/group-photo.png" alt="KCBS 녹음실" class="studio-photo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location-section">
+      <div class="container">
+        <h2 class="section-title">방송국 위치</h2>
+        <p class="section-description">Morton Grove에 위치한 저희 방송국을 찾아주세요</p>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="action-grid">
+            <button class="action-button" onclick="getDirections()">
+              <ion-icon name="navigate-outline"></ion-icon>
+              <span>길찾기</span>
+            </button>
+            <button class="action-button" onclick="callStation()">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>전화하기</span>
+            </button>
+            <button class="action-button" onclick="copyAddress()">
+              <ion-icon name="copy-outline"></ion-icon>
+              <span>주소 복사</span>
+            </button>
+            <button class="action-button" onclick="sendEmail()">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>이메일</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-container">
+          <div class="map-header">
+            <div class="map-info">
+              <h3>5817 Dempster St, Morton Grove, IL 60053</h3>
+              <p>시카고 지역 한인 기독교 방송국</p>
+            </div>
+            <div class="map-controls">
+              <button class="map-btn active" onclick="showMapView()" id="mapBtn">
+                <ion-icon name="map-outline"></ion-icon>
+                지도
+              </button>
+              <button class="map-btn" onclick="showStreetView()" id="streetBtn">
+                <ion-icon name="camera-outline"></ion-icon>
+                Street View
+              </button>
+            </div>
+          </div>
+          
+          <div class="map-wrapper">
+            <iframe 
+              id="mainMap"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2963.10778277062!2d-87.77250636183697!3d42.04086905016392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fcf4bebec9353%3A0x967a1f661ed36af6!2s5817%20Dempster%20St%2C%20Morton%20Grove%2C%20IL%2060053!5e0!3m2!1sen!2sus!4v1753120381180!5m2!1sen!2sus"
+              class="map-iframe"
+              allowfullscreen="" 
+              loading="lazy" 
+              title="KCBS 시카고 방송국 위치">
+            </iframe>
+            
+            <div id="streetView" class="street-view">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!4v1753120152967!6m8!1m7!1sobecBgwUPqUzd3YOLjkZHg!2m2!1d42.04086905016392!2d-87.77250636183697!3f160.92542!4f0!5f0.7820865974627469"
+                class="map-iframe"
+                allowfullscreen="" 
+                loading="lazy" 
+                title="KCBS 시카고 Street View">
+              </iframe>
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <div class="contact-card">
+              <ion-icon name="location-outline"></ion-icon>
+              <div>
+                <h4>주소</h4>
+                <p>5817 Dempster St, Morton Grove, IL 60053</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <ion-icon name="call-outline"></ion-icon>
+              <div>
+                <h4>전화번호</h4>
+                <p>(847) 123-4567</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <ion-icon name="mail-outline"></ion-icon>
+              <div>
+                <h4>이메일</h4>
+                <p>info@kcbschicago.org</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <h4>방송 시간</h4>
+                <p>월-금 6AM-10PM<br>토일 7AM-9PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+      <div class="container">
+        <h2 class="section-title">전문 방송팀</h2>
+        <p class="section-description">KCBS 시카고를 이끌어가는 전문 방송인들</p>
+
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/HLRp81kc/president-1.png" alt="김진행 아나운서" />
+              <div class="member-overlay">
+                <span>국장</span>
+              </div>
+            </div>
+            <h3>서도권 목사</h3>
+            <p>국장</p>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/5N1xk9DZ/Helen.png" alt="이음악 감독" />
+              <div class="member-overlay">
+                <span>간사
+</span>
+              </div>
+            </div>
+            <h3>임헬렌</h3>
+            <p>간사
+</p>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/28PgX0q3/Eunice.png" alt="박기술 감독" />
+              <div class="member-overlay">
+                <span>비디오 제작</span>
+              </div>
+            </div>
+            <h3>Eunice Yoon</h3>
+            <p>비디오 제작</p>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/ZnXs2q5X/Sarah.png" alt="최기획 프로듀서" />
+              <div class="member-overlay">
+                <span>비디오 제작</span>
+              </div>
+            </div>
+            <h3>Sarah Lee</h3>
+            <p>비디오 제작</p>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/V62LGjXw/announcer.png" alt="정뉴스 앵커" />
+              <div class="member-overlay">
+                <span>아나운서</span>
+              </div>
+            </div>
+            <h3>Olivia Yoo</h3>
+            <p>아나운서</p>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <img src="https://i.postimg.cc/1zCXXFXL/me2.png" alt="한창작 작가" />
+              <div class="member-overlay">
+                <span>인턴</span>
+              </div>
+            </div>
+            <h3>Patrick Lin</h3>
+            <p>인턴</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" class="footer-logo" />
+      <p>&copy; 2025 KCBS 시카고. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Enhanced Loading Manager with Proper Animation Timing
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.mainContent = document.getElementById('main-content');
+        this.header = document.getElementById('header');
+        this.logo = document.getElementById('logo');
+        this.navLinks = document.querySelectorAll('.nav-link');
+        this.loadingText = document.getElementById('loading-text');
+        this.isLoaded = false;
+
+        this.loadingMessages = [
+          '콘텐츠 로딩 중...',
+          '리소스 준비 중...',
+          '거의 완료되었습니다...',
+          '마지막 단계...'
+        ];
+        this.currentMessageIndex = 0;
+      }
+
+      updateLoadingMessage() {
+        if (this.currentMessageIndex < this.loadingMessages.length - 1) {
+          this.currentMessageIndex++;
+          this.loadingText.textContent = this.loadingMessages[this.currentMessageIndex];
+        }
+      }
+
+      hideLoadingScreen() {
+        this.loadingScreen.classList.add('fade-out');
+
+        setTimeout(() => {
+          this.mainContent.classList.add('loaded');
+          this.triggerHeaderAnimations();
+        }, 300);
+
+        this.isLoaded = true;
+      }
+
+      triggerHeaderAnimations() {
+        setTimeout(() => {
+          this.header.classList.add('animate-in');
+        }, 100);
+
+        setTimeout(() => {
+          this.logo.classList.add('animate-in');
+        }, 400);
+
+        setTimeout(() => {
+          this.navLinks.forEach(link => {
+            link.classList.add('animate-in');
+          });
+        }, 700);
+      }
+
+      init() {
+        const messageInterval = setInterval(() => {
+          this.updateLoadingMessage();
+        }, 600);
+
+        const minLoadTime = 2000;
+        const startTime = Date.now();
+
+        window.addEventListener('load', () => {
+          const elapsed = Date.now() - startTime;
+          const remainingTime = Math.max(0, minLoadTime - elapsed);
+
+          setTimeout(() => {
+            clearInterval(messageInterval);
+            this.hideLoadingScreen();
+          }, remainingTime);
+        });
+      }
+    }
+
+    // Initialize Loading Manager
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+
+      setTimeout(() => {
+        initializeScrollAnimations();
+        initializeCarousel();
+        initializeHeaderScroll();
+      }, 3000);
+    });
+
+    // Carousel Functionality
+    function initializeCarousel() {
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.hero-slide');
+
+      function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }
+
+      setInterval(nextSlide, 5000);
+    }
+
+    // Scroll Animations
+    function initializeScrollAnimations() {
+      const observer = createObserver();
+
+      document.querySelectorAll('.welcome-section, .location-section, .team-section, .president-section, .team-member').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    function createObserver() {
+      const options = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (entry.target.classList.contains('team-member')) {
+              // Animate all team members when any one comes into view
+              const allTeamMembers = document.querySelectorAll('.team-member');
+              allTeamMembers.forEach((member, index) => {
+                setTimeout(() => {
+                  member.classList.add('visible');
+                }, index * 100);
+              });
+            } else {
+              entry.target.classList.add('visible');
+            }
+          } else {
+            // Remove animations when elements go out of view (for re-triggering)
+            if (entry.target.classList.contains('team-member')) {
+              // Check if ALL team members are out of view
+              const allTeamMembers = document.querySelectorAll('.team-member');
+              const anyTeamMemberVisible = Array.from(allTeamMembers).some(member => {
+                const rect = member.getBoundingClientRect();
+                return rect.top < window.innerHeight && rect.bottom > 0;
+              });
+
+              // Only remove animations if no team members are visible
+              if (!anyTeamMemberVisible) {
+                allTeamMembers.forEach(member => {
+                  member.classList.remove('visible');
+                });
+              }
+            } else {
+              entry.target.classList.remove('visible');
+            }
+          }
+        });
+      }, options);
+
+      return observer;
+    }
+
+    // Header Scroll Effects
+    function initializeHeaderScroll() {
+      let lastScrollY = window.scrollY;
+
+      function updateHeader() {
+        const header = document.querySelector('.header');
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > 100) {
+          header.style.background = 'rgba(255, 255, 255, 0.98)';
+          header.style.boxShadow = '0 8px 32px rgba(30, 64, 175, 0.15)';
+        } else {
+          header.style.background = 'rgba(255, 255, 255, 0.95)';
+          header.style.boxShadow = '0 4px 20px rgba(30, 64, 175, 0.1)';
+        }
+
+        if (currentScrollY > lastScrollY && currentScrollY > 200) {
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          header.style.transform = 'translateY(0)';
+        }
+
+        lastScrollY = currentScrollY;
+      }
+
+      window.addEventListener('scroll', updateHeader);
+    }
+
+    // Map Functions
+    function showMapView() {
+      document.getElementById('mainMap').style.display = 'block';
+      document.getElementById('streetView').style.display = 'none';
+      document.getElementById('mapBtn').classList.add('active');
+      document.getElementById('streetBtn').classList.remove('active');
+    }
+
+    function showStreetView() {
+      document.getElementById('mainMap').style.display = 'none';
+      document.getElementById('streetView').style.display = 'block';
+      document.getElementById('streetBtn').classList.add('active');
+      document.getElementById('mapBtn').classList.remove('active');
+    }
+
+    // Action Functions
+    function getDirections() {
+      const address = '5817 Dempster St, Morton Grove, IL 60053';
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
+      window.open(url, '_blank');
+    }
+
+    function callStation() {
+      window.location.href = 'tel:+1-847-123-4567';
+    }
+
+    function copyAddress() {
+      const address = '5817 Dempster St, Morton Grove, IL 60053';
+      copyToClipboard(address);
+    }
+
+    function sendEmail() {
+      window.location.href = 'mailto:info@kcbschicago.org';
+    }
+
+    // Utility Functions
+    function copyToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showNotification('주소가 클립보드에 복사되었습니다!');
+        }).catch(err => {
+          console.error('클립보드 복사 실패:', err);
+          fallbackCopyToClipboard(text);
+        });
+      } else {
+        fallbackCopyToClipboard(text);
+      }
+    }
+
+    function fallbackCopyToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showNotification('주소가 클립보드에 복사되었습니다!');
+        } else {
+          showNotification('복사에 실패했습니다. 수동으로 복사해주세요.');
+        }
+      } catch (err) {
+        console.error('Fallback 복사 실패:', err);
+        showNotification('복사에 실패했습니다. 수동으로 복사해주세요.');
+      }
+
+      document.body.removeChild(textArea);
+    }
+
+    function showNotification(message, type = 'success') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.textContent = message;
+
+      const bgColor = type === 'error' ? '#ef4444' : type === 'info' ? '#3b82f6' : '#10b981';
+
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${bgColor};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 10001;
+        font-family: inherit;
+        font-size: 0.9rem;
+        max-width: 300px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+      `;
+
+      document.body.appendChild(notification);
+
+      // Trigger animation
+      setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+      }, 100);
+
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Performance optimization: Debounce scroll events
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Add debounced scroll listener for better performance
+    window.addEventListener('scroll', debounce(() => {
+      // Any additional scroll-based functionality can be added here
+    }, 16)); // ~60fps
+
+    // Accessibility improvements
+    document.addEventListener('keydown', function(e) {
+      // Tab navigation enhancement
+      if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-navigation');
+      }
+    });
+
+    document.addEventListener('mousedown', function() {
+      document.body.classList.remove('keyboard-navigation');
+    });
+
+    // Add focus indicators for keyboard navigation
+    const style = document.createElement('style');
+    style.textContent = `
+      .keyboard-navigation *:focus {
+        outline: 2px solid #f59e0b !important;
+        outline-offset: 2px !important;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+</body>
+
+</html>
