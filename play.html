@@ -1,1 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>라디오 프로그램 | KCBS 시카고</title>
+  <meta name="description" content="KCBS 시카고의 최신 라디오 프로그램과 방송을 들어보세요. AM 1590 KHz 또는 FM 95.9 MHz에서 청취 가능합니다." />
+  <link rel="icon" type="image/png" href="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #3730a3;
+      --accent: #0891b2;
+      --gold: #f59e0b;
+      --text: #ffffff;
+      --text-primary: #ffffff;
+      --text-muted: #e2e8f0;
+      --text-dark: #1f2937;
+      --accent-color: #0891b2;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --glass-hover: rgba(255, 255, 255, 0.12);
+      --error: #ef4444;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       --border: rgba(255, 255, 255, 0.2);
+      
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      min-height: 100vh;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.8s ease;
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      animation: logoSpin 2s linear infinite;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--text);
+      border-radius: 50%;
+      margin: 0 auto 1rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    .header.animate-in {
+      animation: slideDownHeader 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes slideDownHeader {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      opacity: 0;
+      transform: scale(0.5) rotate(-180deg);
+    }
+
+    .logo.animate-in {
+      animation: logoAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes logoAppear {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .nav-link.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .nav-link:nth-child(1).animate-in { animation-delay: 0.5s; }
+    .nav-link:nth-child(2).animate-in { animation-delay: 0.6s; }
+    .nav-link:nth-child(3).animate-in { animation-delay: 0.7s; }
+    .nav-link:nth-child(4).animate-in { animation-delay: 0.8s; }
+    .nav-link:nth-child(5).animate-in { animation-delay: 0.9s; }
+    .nav-link:nth-child(6).animate-in { animation-delay: 1.0s; }
+
+    @keyframes navItemSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 80%;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary), var(--accent-color));
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary), var(--accent-color));
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+        activePulse 2s ease-in-out infinite 2s;
+    }
+
+    @keyframes activePulse {
+      0%, 100% {
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 25px rgba(30, 64, 175, 0.5);
+      }
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 100px;
+      padding: 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .content-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .content-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .content-card:hover {
+      background: var(--glass-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(30, 64, 175, 0.25);
+      border-color: var(--gold);
+    }
+
+    .card-icon {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon ion-icon {
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: 0.8;
+    }
+
+    .card-icon.live ion-icon {
+      color: var(--error);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    .card-icon.youtube ion-icon {
+      color: #ff0000;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--text);
+    }
+
+    /* Listening Info */
+    .listening-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .frequency-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .frequency-badge.am {
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      color: white;
+    }
+
+    .frequency-badge.fm {
+      background: linear-gradient(135deg, #06b6d4, #0891b2);
+      color: white;
+    }
+
+    .frequency-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .frequency-divider {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .listening-description {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* Content Loading */
+    .content-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .content-loading .loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--accent);
+    }
+
+    /* Video Items with Thumbnails */
+    .video-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, var(--gold), #f97316);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .video-item:hover::before {
+      transform: scaleY(1);
+    }
+
+    .video-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .video-thumbnail {
+      flex-shrink: 0;
+      width: 120px;
+      height: 68px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .video-thumbnail .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      opacity: 0;
+    }
+
+    .video-thumbnail .play-overlay ion-icon {
+      color: white;
+      font-size: 16px;
+      margin-left: 2px;
+    }
+
+    .video-item:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .video-item:hover .video-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .video-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .video-title {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      transition: var(--transition);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .video-title:hover {
+      color: var(--gold);
+    }
+
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .video-meta ion-icon {
+      font-size: 1rem;
+    }
+
+    .video-meta .live-indicator {
+      color: var(--error);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    .video-meta .youtube-icon {
+      color: #ff0000;
+    }
+
+    /* Messages */
+    .error-message, .no-content {
+      padding: 2rem;
+      text-align: center;
+      font-weight: 500;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1px solid;
+    }
+
+    .error-message {
+      color: var(--error);
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .no-content {
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Animations */
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-100%); 
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0); 
+      }
+    }
+
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+
+    @keyframes livePulse {
+      0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.1); 
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .page-header{
+      margin-top:50px;
+      }
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .main-content {
+        margin-top: 140px;
+        padding: 1rem;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+      }
+
+      .content-card {
+        padding: 2rem 1rem;
+      }
+
+      .listening-info {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .video-item {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .video-thumbnail {
+        width: 100%;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 2rem;
+      }
+      .page-header{
+        margin-top:100px;
+      }
+      .content-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .video-thumbnail {
+        height: 160px;
+      }
+    }
+    .footer {
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" class="loading-logo" />
+      <div class="loading-spinner"></div>
+      <p class="loading-text" id="loading-text">프로그램 로딩 중...</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="history.html" class="logo-link">
+        <img class="logo" id="logo" src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" />
+      </a>
+      <nav class="nav" id="nav">
+        <a class="nav-link" href="index.html">홈</a>
+        <a class="nav-link active" href="play.html">프로그램</a>
+        <a class="nav-link" href="schedule.html">일정</a>
+        <a class="nav-link" href="messages.html">연락처</a>
+        <a class="nav-link" href="directors.html">감독들</a>
+        <a class="nav-link" href="contributors.html">기여자</a>
+      </nav>
+    </div>
+  </header>
+ 
+  <!-- Hidden Google Translate Element -->
+  <div id="google_translate_element" style="display: none;"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="page-header">
+      <h1 class="page-title">최신 프로그램</h1>
+      <p class="page-subtitle">KCBS 시카고의 최신 라디오 프로그램과 방송을 들어보세요</p>
+    </section>
+
+    <section class="content-card">
+      <div class="card-icon">
+        <ion-icon name="radio-outline"></ion-icon>
+      </div>
+      <h2 class="section-title">청취 안내</h2>
+      <div class="listening-info">
+        <div class="frequency-badge am">
+          <ion-icon name="radio"></ion-icon>
+          <span>AM 1590 KHz</span>
+        </div>
+        <div class="frequency-divider">또는</div>
+        <div class="frequency-badge fm">
+          <ion-icon name="radio"></ion-icon>
+          <span>FM 95.9 MHz</span>
+        </div>
+      </div>
+      <p class="listening-description">
+        KCBS 라디오는 시카고 지역에서 24시간 기독교 방송을 송출합니다.
+      </p>
+    </section>
+
+    <section class="content-card">
+      <div class="card-icon live">
+        <ion-icon name="radio-outline"></ion-icon>
+      </div>
+      <h2 class="section-title">현재 생방송</h2>
+      <div id="live-list" class="content-loading">
+        <div class="loading-spinner"></div>
+        <span>생방송 확인 중...</span>
+      </div>
+    </section>
+
+    <section class="content-card">
+      <div class="card-icon youtube">
+        <ion-icon name="logo-youtube"></ion-icon>
+      </div>
+      <h2 class="section-title">최근 업로드된 영상들</h2>
+      <div id="video-list" class="content-loading" style="display:flex; flex-direction:column; align-items:start;">
+        <div class="loading-spinner"></div>
+        <span>프로그램 로딩 중...</span>
+      </div>
+    </section>
+  </main>
+  <div id="google_translate_element"></div>
+
+  <footer class="footer">
+    <div class="container">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" class="footer-logo" />
+      <p>&copy; 2025 KCBS 시카고. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+      // Enhanced Loading Manager with Proper Animation Timing
+      class LoadingManager {
+        constructor() {
+          this.loadingScreen = document.getElementById('loading-screen');
+          this.mainContent = document.querySelector('.main-content');
+          this.header = document.getElementById('header');
+          this.logo = document.getElementById('logo');
+          this.navLinks = document.querySelectorAll('.nav-link');
+          this.loadingText = document.getElementById('loading-text');
+          this.isLoaded = false;
+
+          this.loadingMessages = [
+            '프로그램 로딩 중...',
+            '리소스 준비 중...',
+            '거의 완료되었습니다...',
+            '마지막 단계...'
+          ];
+          this.currentMessageIndex = 0;
+        }
+
+        updateLoadingMessage() {
+          if (this.currentMessageIndex < this.loadingMessages.length - 1) {
+            this.currentMessageIndex++;
+            this.loadingText.textContent = this.loadingMessages[this.currentMessageIndex];
+          }
+        }
+
+        hideLoadingScreen() {
+          this.loadingScreen.classList.add('fade-out');
+
+          setTimeout(() => {
+            if (this.mainContent) {
+              this.mainContent.style.opacity = '1';
+            }
+            this.triggerHeaderAnimations();
+          }, 300);
+
+          this.isLoaded = true;
+        }
+
+        triggerHeaderAnimations() {
+          setTimeout(() => {
+            if (this.header) {
+              this.header.classList.add('animate-in');
+            }
+          }, 100);
+
+          setTimeout(() => {
+            if (this.logo) {
+              this.logo.classList.add('animate-in');
+            }
+          }, 400);
+
+          setTimeout(() => {
+            this.navLinks.forEach(link => {
+              link.classList.add('animate-in');
+            });
+          }, 700);
+        }
+
+        triggerAnimations() {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.classList.add('visible');
+                }, index * 200);
+              }
+            });
+          }, { threshold: 0.1 });
+
+          document.querySelectorAll('.content-card').forEach(card => {
+            observer.observe(card);
+          });
+        }
+
+        init() {
+          const messageInterval = setInterval(() => {
+            this.updateLoadingMessage();
+          }, 600);
+
+          const minLoadTime = 2000;
+          const startTime = Date.now();
+
+          window.addEventListener('load', () => {
+            const elapsed = Date.now() - startTime;
+            const remainingTime = Math.max(0, minLoadTime - elapsed);
+
+            setTimeout(() => {
+              clearInterval(messageInterval);
+              this.hideLoadingScreen();
+              this.triggerAnimations();
+            }, remainingTime);
+          });
+        }
+      }
+
+      // Header Scroll Effects
+      function initializeHeaderScroll() {
+        let lastScrollY = window.scrollY;
+
+        function updateHeader() {
+          const header = document.querySelector('.header');
+          if (!header) return;
+
+          const currentScrollY = window.scrollY;
+
+          if (currentScrollY > 100) {
+            header.style.background = 'rgba(255, 255, 255, 0.98)';
+            header.style.boxShadow = '0 8px 32px rgba(30, 64, 175, 0.15)';
+          } else {
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+            header.style.boxShadow = '0 4px 20px rgba(30, 64, 175, 0.1)';
+          }
+
+          if (currentScrollY > lastScrollY && currentScrollY > 200) {
+            header.style.transform = 'translateY(-100%)';
+          } else {
+            header.style.transform = 'translateY(0)';
+          }
+
+          lastScrollY = currentScrollY;
+        }
+
+        window.addEventListener('scroll', debounce(updateHeader, 16));
+      }
+
+      // Scroll Animations for Content Cards
+      function initializeScrollAnimations() {
+        const observer = createObserver();
+
+        document.querySelectorAll('.content-card').forEach(el => {
+          observer.observe(el);
+        });
+      }
+
+      function createObserver() {
+        const options = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            } else {
+              entry.target.classList.remove('visible');
+            }
+          });
+        }, options);
+
+        return observer;
+      }
+
+      // YouTube API Configuration
+      const API_KEY = 'AIzaSyCGMCegqgpDBDXFdZDyhw-YNCWiYCq9gTA';
+      const CHANNEL_ID = 'UCR2ICSF-8a2ZAMScmrdC3eg';
+
+      async function fetchChannelInfo() {
+        try {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          return data.items[0].contentDetails.relatedPlaylists.uploads;
+        } catch (error) {
+          console.error('Error fetching channel info:', error);
+          throw error;
+        }
+      }
+
+      async function fetchVideos(playlistId) {
+        try {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=10&key=${API_KEY}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          return data.items;
+        } catch (error) {
+          console.error('Error fetching videos:', error);
+          throw error;
+        }
+      }
+
+      async function fetchLiveStreams() {
+        try {
+          const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          return data.items;
+        } catch (error) {
+          console.error('Error fetching live streams:', error);
+          throw error;
+        }
+      }
+
+      function createVideoElement(video, isLive = false) {
+        const videoId = video.snippet?.resourceId?.videoId || video.id?.videoId || video.id;
+        const title = video.snippet.title;
+        const thumbnail = video.snippet.thumbnails?.medium?.url || video.snippet.thumbnails?.default?.url;
+
+        if (!videoId || !title) {
+          console.warn('Invalid video data:', video);
+          return null;
+        }
+
+        const videoDiv = document.createElement('div');
+        videoDiv.className = 'video-item';
+
+        videoDiv.innerHTML = `
+          <div class="video-thumbnail">
+            <a href="https://www.youtube.com/watch?v=${videoId}" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <img src="${thumbnail}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/120x68/1e40af/ffffff?text=No+Image'"/>
+              <div class="play-overlay">
+                <ion-icon name="play"></ion-icon>
+              </div>
+            </a>
+          </div>
+          <div class="video-info">
+            <a href="https://www.youtube.com/watch?v=${videoId}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="video-title">${title}</a>
+            <div class="video-meta">
+              <ion-icon name="${isLive ? 'radio' : 'logo-youtube'}" class="${isLive ? 'live-indicator' : 'youtube-icon'}"></ion-icon>
+              <span>${isLive ? 'LIVE' : 'YouTube'}</span>
+            </div>
+          </div>
+        `;
+
+        return videoDiv;
+      }
+
+      async function loadVideos() {
+        const container = document.getElementById('video-list');
+        if (!container) return;
+
+        try {
+          container.innerHTML = `
+            <div class="content-loading">
+              <div class="loading-spinner"></div>
+              <span>프로그램 로딩 중...</span>
+            </div>
+          `;
+
+          const playlistId = await fetchChannelInfo();
+          const videos = await fetchVideos(playlistId);
+
+          container.innerHTML = '';
+
+          if (videos.length === 0) {
+            container.innerHTML = '<div class="no-content">최근 업로드된 영상이 없습니다. 🎵</div>';
+          } else {
+            videos.forEach(video => {
+              const videoElement = createVideoElement(video, false);
+              if (videoElement) {
+                container.appendChild(videoElement);
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Error loading videos:', error);
+          container.innerHTML = `<div class="error-message">프로그램 로딩 오류: ${error.message}</div>`;
+        }
+      }
+
+      async function loadLiveStreams() {
+        const container = document.getElementById('live-list');
+        if (!container) return;
+
+        try {
+          container.innerHTML = `
+            <div class="content-loading">
+              <div class="loading-spinner"></div>
+              <span>생방송 확인 중...</span>
+            </div>
+          `;
+
+          const liveVideos = await fetchLiveStreams();
+
+          container.innerHTML = '';
+
+          if (liveVideos.length === 0) {
+            container.innerHTML = '<div class="no-content">현재 생방송이 없습니다. 📻</div>';
+          } else {
+            liveVideos.forEach(video => {
+              const videoElement = createVideoElement(video, true);
+              if (videoElement) {
+                container.appendChild(videoElement);
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Error loading live streams:', error);
+          container.innerHTML = `<div class="error-message">생방송 로딩 오류: ${error.message}</div>`;
+        }
+      }
+
+      // Utility Functions
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+
+        const bgColor = type === 'error' ? '#ef4444' : type === 'info' ? '#3b82f6' : '#10b981';
+
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: ${bgColor};
+          color: white;
+          padding: 1rem 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          z-index: 10001;
+          font-family: inherit;
+          font-size: 0.9rem;
+          max-width: 300px;
+          opacity: 0;
+          transform: translateY(-20px);
+          transition: all 0.3s ease;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.opacity = '1';
+          notification.style.transform = 'translateY(0)';
+        }, 100);
+
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transform = 'translateY(-20px)';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              document.body.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
+
+      // Initialize Everything
+      document.addEventListener('DOMContentLoaded', () => {
+        const loadingManager = new LoadingManager();
+        loadingManager.init();
+
+        // Initialize scroll animations and header effects
+        setTimeout(() => {
+          initializeScrollAnimations();
+          initializeHeaderScroll();
+        }, 1000);
+
+        // Load YouTube content after a short delay
+        setTimeout(() => {
+          loadVideos();
+          loadLiveStreams();
+        }, 3000);
+      });
+
+      // Performance optimization
+      window.addEventListener('scroll', debounce(() => {
+        // Any additional scroll-based functionality can be added here
+      }, 16));
+
+      // Accessibility improvements
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          document.body.classList.add('keyboard-navigation');
+        }
+      });
+
+      document.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-navigation');
+      });
+
+      // Add focus indicators for keyboard navigation
+      const style = document.createElement('style');
+      style.textContent = `
+        .keyboard-navigation *:focus {
+          outline: 2px solid #f59e0b !important;
+          outline-offset: 2px !important;
+        }
+      `;
+      document.head.appendChild(style);
+  </script>
+</body>
+</html>
