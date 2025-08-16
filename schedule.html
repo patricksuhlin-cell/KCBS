@@ -1,1 +1,1614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KCBS 시카고 주간 편성표</title>
+  <meta name="description" content="KCBS 시카고 2025년 7월 주간 편성표. 한국 기독교 방송 프로그램 안내." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3730a3;
+      --accent-color: #0891b2;
+      --accent-light: #0284c7;
+      --warm-accent: #dc2626;
+      --gold-accent: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-dark: #1f2937;
+      --surface: rgba(255, 255, 255, 0.1);
+      --surface-hover: rgba(255, 255, 255, 0.15);
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --header-height: 100px;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      animation: logoSpin 2s linear infinite;
+    }
+
+    .loading-spinner-circle {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--text-primary);
+      border-radius: 50%;
+      margin: 0 auto 1rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .header.animate-in {
+      animation: slideDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      opacity: 0;
+      transform: scale(0.5) rotate(-180deg);
+    }
+
+    .logo.animate-in {
+      animation: logoAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .nav-link.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .nav-link:nth-child(1).animate-in { animation-delay: 0.5s; }
+      .nav-link:nth-child(2).animate-in { animation-delay: 0.6s; }
+      .nav-link:nth-child(3).animate-in { animation-delay: 0.7s; }
+      .nav-link:nth-child(4).animate-in { animation-delay: 0.8s; }
+      .nav-link:nth-child(5).animate-in { animation-delay: 0.9s; }
+      .nav-link:nth-child(6).animate-in { animation-delay: 1.0s; }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+    .nav-link:hover::before {
+      left: 100%;
+    }
+    .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 80%;
+      }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-link.active.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+        activePulse 2s ease-in-out infinite 2s;
+    }
+
+    @keyframes activePulse {
+      0%, 100% {
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 25px rgba(30, 64, 175, 0.5);
+      }
+    }
+    /* Main Content */
+    #main-content {
+      margin-top: var(--header-height);
+      padding: 2rem;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    #main-content.loaded {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.8s ease-out;
+    }
+
+    .content-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 2rem 4rem;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .content-card:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(30, 64, 175, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-accent), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Station Info */
+    .station-info {
+      margin-bottom: 3rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .info-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    .info-card:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .info-card ion-icon {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .info-card:hover ion-icon {
+      transform: scale(1.1);
+      color: var(--accent-light);
+    }
+
+    .info-card h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .info-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Table Container */
+    .table-container {
+      margin-bottom: 2rem;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .table-header h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .table-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .table-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .table-btn.active {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      color: var(--text-primary);
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-md);
+    }
+
+    .table-btn:hover:not(.active) {
+      background: var(--surface);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Table Wrapper */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    /* Schedule Table */
+    .schedule-table {
+      width: 100%;
+      min-width: 800px;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      background: transparent;
+    }
+
+    .schedule-table th {
+      padding: 1rem 0.5rem;
+      text-align: center;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+      background: var(--surface-hover);
+      color: var(--text-primary);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .time-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+      color: var(--text-primary) !important;
+    }
+
+    .day-header {
+      position: relative;
+      color: var(--text-primary) !important;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-light)) !important;
+    }
+
+    .schedule-table td {
+      padding: 0.75rem 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.4;
+      min-height: 60px;
+      transition: var(--transition);
+    }
+
+    .time-column {
+      background: var(--surface-hover);
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 1rem;
+      position: sticky;
+      left: 0;
+      z-index: 5;
+    }
+
+    .program-cell {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .program-cell:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.01);
+      box-shadow: 0 2px 8px rgba(30, 64, 175, 0.15);
+    }
+
+    .program-cell small {
+      color: #cbd5e1;
+      font-size: 0.75rem;
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .program-cell.empty {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* Special Event Cells */
+    .full-width-event {
+      background: linear-gradient(135deg, rgba(8, 145, 178, 0.2), rgba(8, 145, 178, 0.1));
+      color: var(--text-primary);
+      font-weight: 700;
+      text-align: center;
+      vertical-align: middle;
+      padding: 1rem;
+      border-left: 4px solid var(--accent-color);
+      border-right: 4px solid var(--accent-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .event-content ion-icon {
+      font-size: 1.2rem;
+      color: var(--accent-light);
+    }
+
+    .full-width-event.rerun {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+      border-color: var(--gold-accent);
+    }
+
+    .full-width-event.rerun .event-content ion-icon {
+      color: var(--gold-accent);
+    }
+
+    .full-width-event.community {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+      border-color: #10b981;
+    }
+
+    .full-width-event.community .event-content ion-icon {
+      color: #10b981;
+    }
+
+    .full-width-event.news {
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.1));
+      border-color: var(--warm-accent);
+    }
+
+    .full-width-event.news .event-content ion-icon {
+      color: var(--warm-accent);
+    }
+
+    .full-width-event.special {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+      border-color: #8b5cf6;
+    }
+
+    .full-width-event.special .event-content ion-icon {
+      color: #8b5cf6;
+    }
+
+    .full-width-event.bible {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+      border-color: var(--gold-accent);
+    }
+
+    .full-width-event.bible .event-content ion-icon {
+      color: var(--gold-accent);
+    }
+
+    .full-width-event.closing {
+      background: linear-gradient(135deg, rgba(107, 114, 128, 0.2), rgba(107, 114, 128, 0.1));
+      border-color: #6b7280;
+    }
+
+    .full-width-event.closing .event-content ion-icon {
+      color: #9ca3af;
+    }
+
+    .vertical-event {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+      border-left: 4px solid #10b981;
+      border-right: 4px solid #10b981;
+      text-align: center;
+      vertical-align: middle;
+      font-weight: 600;
+      color: var(--text-primary);
+      position: relative;
+    }
+
+    .program-cell.worship {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .program-cell.special {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+      color: var(--text-primary);
+    }
+
+    /* Mobile Schedule */
+    .mobile-schedule {
+      display: none;
+    }
+
+    .mobile-day {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .mobile-day h3 {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      color: var(--text-primary);
+      padding: 1rem;
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .mobile-program {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .mobile-program:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-time {
+      background: var(--primary-color);
+      color: var(--text-primary);
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .mobile-program-info {
+      flex: 1;
+    }
+
+    .mobile-program-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .mobile-program-host {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    /* Footer Note */
+    .footer-note {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .footer {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    .note-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .note-content ion-icon {
+      font-size: 1.25rem;
+      color: var(--accent-color);
+    }
+
+    .note-content p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Animations */
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-100%); 
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0); 
+      }
+    }
+
+    @keyframes logoAppear {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes navItemSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes activePulse {
+      0%, 100% {
+        box-shadow: var(--shadow-md);
+      }
+      50% {
+        box-shadow: var(--shadow-lg);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      #main-content {
+        padding: 1.5rem;
+      }
+
+      .content-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .schedule-table {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-height: 140px;
+      }
+      .content-card{
+        margin-top:100px;
+      }
+      .header {
+        height: auto;
+        min-height: var(--header-height);
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      #main-content {
+        margin-top: 140px;
+        padding: 1rem;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+      }
+
+      .page-subtitle {
+        font-size: 1rem;
+      }
+
+      .content-card {
+        padding: 2rem 1rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .table-wrapper {
+        border-radius: 12px;
+        overflow-x: auto; /* Allow horizontal scroll for table */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      }
+
+      .schedule-table {
+        font-size: 0.7rem;
+        min-width: 700px; /* Minimum width to keep table readable */
+        width: auto;
+      }
+
+      .schedule-table th,
+      .schedule-table td {
+        padding: 0.4rem 0.2rem;
+        font-size: 0.65rem;
+        line-height: 1.2;
+      }
+
+      /* Make time columns narrower on mobile */
+      .time-column {
+        min-width: 30px;
+        font-size: 0.7rem;
+      }
+
+      /* Adjust program cell content for mobile */
+      .program-cell {
+        font-size: 0.6rem;
+        line-height: 1.3;
+        max-width: 120px;
+      }
+
+      .program-cell small {
+        font-size: 0.55rem;
+      }
+
+      /* Make full-width events more readable */
+      .full-width-event {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+      }
+
+      .event-content ion-icon {
+        font-size: 1rem;
+      }
+
+      /* Keep mobile schedule hidden since desktop table works */
+      .mobile-schedule {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --header-height: 160px;
+      }
+
+      .header {
+        height: auto;
+        min-height: var(--header-height);
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      #main-content {
+        margin-top: 160px;
+        padding: 0.75rem;
+      }
+
+      .content-card {
+        padding: 1.5rem 0.75rem;
+      }
+
+      .page-title {
+        font-size: 1.8rem;
+      }
+
+      .table-header h2 {
+        font-size: 1.3rem;
+      }
+
+      .table-controls {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .table-btn {
+        justify-content: center;
+        font-size: 0.8rem;
+        padding: 0.6rem;
+      }
+
+      /* Even smaller table for very small screens */
+      .schedule-table {
+        font-size: 0.6rem;
+        min-width: 650px;
+      }
+
+      .schedule-table th,
+      .schedule-table td {
+        padding: 0.3rem 0.15rem;
+        font-size: 0.6rem;
+      }
+
+      .program-cell {
+        font-size: 0.55rem;
+        max-width: 100px;
+      }
+
+      .program-cell small {
+        font-size: 0.5rem;
+      }
+
+      .full-width-event {
+        font-size: 0.65rem;
+        padding: 0.4rem;
+      }
+
+      .info-grid {
+        gap: 0.5rem;
+      }
+
+      .info-card {
+        padding: 1rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Prevent horizontal overflow while allowing table scroll */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    #main-content {
+      max-width: 100%;
+    }
+
+    .content-card {
+      max-width: 100%;
+    }
+
+    .table-container {
+      max-width: 100%;
+    }
+
+    /* Focus styles for accessibility */
+    .nav-link:focus,
+    .table-btn:focus,
+    .program-cell:focus {
+      outline: 2px solid var(--gold-accent);
+      outline-offset: 2px;
+    }
+  
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" class="loading-logo" />
+      <div class="loading-spinner-circle"></div>
+    
+      <p id="loading-text" class="loading-text">편성표 로딩 중...</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="history.html" class="logo-link" aria-label="KCBS 홈페이지로 이동">
+        <img class="logo" id="logo" src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" />
+      </a>
+      <nav class="nav" id="nav">
+        <a class="nav-link" href="index.html">홈</a>
+        <a class="nav-link" href="play.html">프로그램</a>
+        <a class="nav-link active" href="schedule.html">일정</a>
+        <a class="nav-link" href="messages.html">연락처</a>
+        <a class="nav-link" href="directors.html">감독들</a>
+        <a class="nav-link" href="contributors.html">기여자</a>
+      </nav>
+    </div>
+  </header>
+  <div id="google_translate_element" style="display: none;"></div>
+  <!-- Main Content -->
+  <main id="main-content">
+    <section class="content-card">
+      <div class="card-header">
+        <div class="title-section">
+          <h1 class="page-title">시카고 기독교 방송 2025년 7월 주간 편성표</h1>
+          <p class="page-subtitle">월요일부터 금요일까지의 상세 방송 일정을 확인하세요</p>
+        </div>
+      </div>
+
+      <div class="station-info">
+        <div class="info-grid">
+          <div class="info-card">
+            <ion-icon name="business-outline"></ion-icon>
+            <div>
+              <h3>Company Name</h3>
+              <p>Korean Christian Broadcasting System of Chicago</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <ion-icon name="radio-outline"></ion-icon>
+            <div>
+              <h3>Format</h3>
+              <p>Korean Language - News/Talk/Mission/Preaching/Music</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <ion-icon name="time-outline"></ion-icon>
+            <div>
+              <h3>Time</h3>
+              <p>6:00am ~ 12:00pm</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <ion-icon name="settings-outline"></ion-icon>
+            <div>
+              <h3>Call Sign & Frequency</h3>
+              <p>WCGO-KCBS ● AM 1550 KHz, FM 95.9 KHz</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <h2>주간 프로그램 일정</h2>
+          <div class="table-controls">
+            <button class="table-btn active" onclick="showFullTable()">
+              <ion-icon name="grid-outline"></ion-icon>
+              전체 보기
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrapper" id="fullTable">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th class="time-header">시간</th>
+                <th class="time-header">분</th>
+                <th class="day-header monday">월요일</th>
+                <th class="day-header tuesday">화요일</th>
+                <th class="day-header wednesday">수요일</th>
+                <th class="day-header thursday">목요일</th>
+                <th class="day-header friday">금요일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 6시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="3">6</td>
+                <td class="time-column">00</td>
+                <td colspan="5" class="full-width-event">
+                  <div class="event-content">
+                    <ion-icon name="musical-notes-outline"></ion-icon>
+                    <span>은혜의 아침찬양</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">20</td>
+                <td class="program-cell">서울 원천교회<br><small>(문강원 목사)</small></td>
+                <td class="program-cell">'오직 주민이' 강원 춘천한마음교회<br><small>(강동)</small></td>
+                <td class="program-cell">필라 영생장로교회<br><small>(정승환 목사)</small></td>
+                <td class="program-cell">필라인다욕교회<br><small>(임재영 목사)</small></td>
+                <td class="program-cell">서울연동교회<br><small>(김주용 위임목사)</small></td>
+              </tr>
+              <tr class="rerun-slot">
+                <td class="time-column">50</td>
+                <td colspan="5" class="full-width-event rerun">
+                  <div class="event-content">
+                    <ion-icon name="refresh-outline"></ion-icon>
+                    <span>조대석 재방송</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- 7시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="5">7</td>
+                <td class="time-column">00</td>
+                <td class="program-cell">찬양으로 만나는 하나님<br><small>(정유경 전도사)</small></td>
+                <td class="program-cell">이 위대한 구원<br><small>(Darin Pantley)</small></td>
+                <td class="program-cell">삶으로 드리는 찬양<br><small>(볼티모어 한인장로교회 / 정진부목사)</small></td>
+                <td class="program-cell">은혜의 뒷이야기<br><small>(시카고언약장로교회 / 유승원 은퇴목사)</small></td>
+                <td class="program-cell">강원 동해성민교회<br><small>(김상우 목사)</small></td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">10</td>
+                <td class="program-cell">신앙 에세이<br><small>(이준 목사)</small></td>
+                <td class="program-cell">겨자씨 선교회<br><small>(박강석 목사)</small></td>
+                <td class="program-cell">뉴욕 영생교회 시간<br><small>(이승진 목사)</small></td>
+                <td class="program-cell">시편을 따라드리는 기도<br><small>(김광섭 목사)</small></td>
+                <td class="program-cell special" rowspan="2">생명생장로교회<br><small>(박화신 목사)</small></td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">20</td>
+                <td class="program-cell">은혜의 강가로<br><small>(유남수 목사)</small></td>
+                <td class="vertical-event" rowspan="2">새날장로교회<br><small>(김영문 목사)</small></td>
+                <td class="vertical-event" rowspan="2">천안 순복음참아름다운교회<br><small>(안병찬 목사)</small></td>
+                <td class="vertical-event" rowspan="2">중앙진리교회<br><small>(김호근 목사)</small></td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">30</td>
+                <td class="program-cell">중앙그리스도의교회<br><small>(최윤권 원로목사)</small></td>
+                <td class="program-cell">생명생장로교회<br><small>(박화신 목사)</small></td>
+              </tr>
+              <tr class="community-slot">
+                <td class="time-column">50</td>
+                <td colspan="5" class="full-width-event community">
+                  <div class="event-content">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <span>KCBS 커뮤니티 게시판</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- 8시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="3">8</td>
+                <td class="time-column">00</td>
+                <td class="program-cell">LA 나성교회<br><small>(정동석 목사)</small></td>
+                <td class="program-cell">새마음교회<br><small>(김재경 목사)</small></td>
+                <td class="program-cell">약속의 교회<br><small>(김경수 목사)</small></td>
+                <td class="program-cell">헤브론의 강단<br><small>(엄협성 목사)</small></td>
+                <td class="program-cell">크로스포인트교회<br><small>(서도권 목사)</small></td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">30</td>
+                <td class="program-cell">Today's manna<br><small>(김성열목사)</small></td>
+                <td class="program-cell">1분 묵상<br><small>(이석 목사)</small></td>
+                <td class="program-cell empty">-</td>
+                <td class="program-cell empty">-</td>
+                <td class="program-cell">1분 묵상<br><small>(강선우 목사)</small></td>
+              </tr>
+              <tr class="news-slot">
+                <td class="time-column">45</td>
+                <td colspan="5" class="full-width-event news">
+                  <div class="event-content">
+                    <ion-icon name="newspaper-outline"></ion-icon>
+                    <span>KCBS 데일리 뉴스 굿모닝 시카고 (유정임 아나운서)</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- 9시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="2">9</td>
+                <td class="time-column">00</td>
+                <td class="program-cell">더새로운교회<br><small>(강성일목사)</small></td>
+                <td class="program-cell">샴버그한인교회<br><small>(박시몬 목사)</small></td>
+                <td class="program-cell">시카고 한인연합장로교회<br><small>(조은성 목사)</small></td>
+                <td class="program-cell">시카고한인제일감리교회<br><small>(김광태목사)</small></td>
+                <td class="program-cell">시카고 한인제일연합감리교회<br><small>(조선형 목사)</small></td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">30</td>
+                <td class="program-cell">경기용인 포도나무교회<br><small>(여주봉 목사)</small></td>
+                <td class="program-cell">LA생수교회<br><small>(라환주 목사)</small></td>
+                <td class="program-cell">서울 여의도순복음교회<br><small>(이영훈 목사)</small></td>
+                <td class="program-cell">LA 주님의 영광교회<br><small>(신승훈 목사)</small></td>
+                <td class="program-cell">침례교회시간<br><small>(코너스톤교회 1, 5,<br>샴버그침례교회 2, 3, 4)</small></td>
+              </tr>
+
+              <!-- 10시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="5">10</td>
+                <td class="time-column">00</td>
+                <td colspan="5" class="full-width-event community">
+                  <div class="event-content">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <span>KCBS 커뮤니티 게시판</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">10</td>
+                <td class="vertical-event" rowspan="3">LA 은혜 한인교회<br><small>(한기홍 목사)</small></td>
+                <td class="program-cell">시카고 리얼터 다이애나 최의 리얼톡<br><small>(Diana Choi)</small></td>
+                <td class="program-cell">주님의 비전을 품고 주님과 동행하며<br><small>(김광태목사)</small></td>
+                <td class="program-cell">5분 건강칼럼<br><small>(김광수 치과)</small></td>
+                <td class="program-cell">살며의어가며 김애선 (1, 3주)<br>은퇴목사 강단 (2, 4주)<br>쥴리심장의사 5분칼럼 (5주)</td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column" rowspan="2">20</td>
+                <td class="program-cell">제목미정<br><small>(김선숙 집사)</small></td>
+                <td class="vertical-event" rowspan="2">서울 강남교회<br><small>(백용석 목사)</small></td>
+                <td class="vertical-event" rowspan="2">LA 남가주 사랑의교회<br><small>(노창수 목사)</small></td>
+                <td class="program-cell">Public Benefit Talk! (이유림 매니저 1, 3주)<br>한울과 함께 마음산책 (이은지 상담사2, 4주)</td>
+              </tr>
+              <tr class="program-slot">
+                <td class="program-cell">내 영혼이 은총 입어<br><small>(방철섭 목사)</small></td>
+                <td class="program-cell">행복한 부부교실<br><small>(채규만 박사)</small></td>
+              </tr>
+              <tr class="special-slot">
+                <td class="time-column">40</td>
+                <td colspan="5" class="full-width-event special">
+                  <div class="event-content">
+                    <ion-icon name="mic-outline"></ion-icon>
+                    <span>KCBS 초대석</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- 11시대 -->
+              <tr class="time-slot">
+                <td class="time-column" rowspan="5">11</td>
+                <td class="time-column">00</td>
+                <td colspan="4" class="program-cell worship">극동방송 찬양 (월-목)</td>
+                <td class="program-cell">세종바이오<br><small>(David Suh)</small></td>
+              </tr>
+              <tr class="bible-slot">
+                <td class="time-column">20</td>
+                <td colspan="5" class="full-width-event bible">
+                  <div class="event-content">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span>맥체인 성경읽기 (월 - 금)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="program-slot">
+                <td class="time-column">35</td>
+                <td class="program-cell">소망의 여정<br><small>(손경미 선교사)</small></td>
+                <td class="program-cell">하나님이 사랑하는 청년이야기<br><small>(홍다은 회장)</small></td>
+                <td class="program-cell">울림이 있는 이야기<br><small>(이태영 목사)</small></td>
+                <td class="program-cell">최선주 목사의 엽서칼럼</td>
+                <td class="program-cell">청생코<br><small>(김철원 문샤론)</small></td>
+              </tr>
+              <tr class="community-slot">
+                <td class="time-column" rowspan="2">50</td>
+                <td colspan="5" class="full-width-event community">
+                  <div class="event-content">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <span>KCBS 커뮤니티 게시판</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="closing-slot">
+                <td colspan="5" class="full-width-event closing">
+                  <div class="event-content">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span>클로징</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mobile-schedule" id="mobileTable" style="display: none;">
+          <div class="mobile-day" data-day="monday">
+            <h3>월요일</h3>
+            <!-- Mobile day content would go here -->
+          </div>
+          <!-- Other mobile days would follow... -->
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <div class="note-content">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <p>* 위의 편성은 대략적인 소요 시간을 나타냅니다. 때에 따라 변경될 수도 있습니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" class="footer-logo" />
+      <p>&copy; 2025 KCBS 시카고. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.mainContent = document.getElementById('main-content');
+        this.header = document.getElementById('header');
+        this.logo = document.getElementById('logo');
+        this.navLinks = document.querySelectorAll('.nav-link');
+        this.loadingText = document.getElementById('loading-text');
+        this.isLoaded = false;
+
+        this.loadingMessages = [
+          '콘텐츠 로딩 중...',
+          '리소스 준비 중...',
+          '거의 완료되었습니다...',
+          '마지막 단계...'
+        ];
+        this.currentMessageIndex = 0;
+      }
+
+      updateLoadingMessage() {
+        if (this.currentMessageIndex < this.loadingMessages.length - 1) {
+          this.currentMessageIndex++;
+          if (this.loadingText) {
+            this.loadingText.textContent = this.loadingMessages[this.currentMessageIndex];
+          }
+        }
+      }
+
+      hideLoadingScreen() {
+        if (this.loadingScreen) {
+          this.loadingScreen.classList.add('fade-out');
+        }
+
+        setTimeout(() => {
+          if (this.mainContent) {
+            this.mainContent.classList.add('loaded');
+          }
+          this.triggerHeaderAnimations();
+        }, 300);
+
+        this.isLoaded = true;
+      }
+
+      triggerHeaderAnimations() {
+        setTimeout(() => {
+          if (this.header) {
+            this.header.classList.add('animate-in');
+          }
+        }, 100);
+
+        setTimeout(() => {
+          if (this.logo) {
+            this.logo.classList.add('animate-in');
+          }
+        }, 400);
+
+        setTimeout(() => {
+          this.navLinks.forEach(link => {
+            link.classList.add('animate-in');
+          });
+        }, 700);
+      }
+
+      showMainContent() {
+        setTimeout(() => {
+          if (this.mainContent) {
+            this.mainContent.classList.add('loaded');
+          }
+        }, 500);
+      }
+
+      // REMOVED: initializeTableAnimations() - this was causing the disappearing table bug
+
+      initializeScrollAnimations() {
+        // Generic scroll animations for any page (excluding table elements)
+        const observer = this.createObserver();
+
+        document.querySelectorAll('.welcome-section, .location-section, .team-section, .president-section, .team-member').forEach(el => {
+          observer.observe(el);
+        });
+      }
+
+      createObserver() {
+        const options = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (entry.target.classList.contains('team-member')) {
+                // Animate all team members when any one comes into view
+                const allTeamMembers = document.querySelectorAll('.team-member');
+                allTeamMembers.forEach((member, index) => {
+                  setTimeout(() => {
+                    member.classList.add('visible');
+                  }, index * 100);
+                });
+              } else {
+                entry.target.classList.add('visible');
+              }
+            } else {
+              // Remove animations when elements go out of view (for re-triggering)
+              if (entry.target.classList.contains('team-member')) {
+                // Check if ALL team members are out of view
+                const allTeamMembers = document.querySelectorAll('.team-member');
+                const anyTeamMemberVisible = Array.from(allTeamMembers).some(member => {
+                  const rect = member.getBoundingClientRect();
+                  return rect.top < window.innerHeight && rect.bottom > 0;
+                });
+
+                // Only remove animations if no team members are visible
+                if (!anyTeamMemberVisible) {
+                  allTeamMembers.forEach(member => {
+                    member.classList.remove('visible');
+                  });
+                }
+              } else {
+                entry.target.classList.remove('visible');
+              }
+            }
+          });
+        }, options);
+
+        return observer;
+      }
+
+      init() {
+        const messageInterval = setInterval(() => {
+          this.updateLoadingMessage();
+        }, 600);
+
+        const minLoadTime = 2000;
+        const startTime = Date.now();
+
+        window.addEventListener('load', () => {
+          const elapsed = Date.now() - startTime;
+          const remainingTime = Math.max(0, minLoadTime - elapsed);
+
+          setTimeout(() => {
+            clearInterval(messageInterval);
+            this.hideLoadingScreen();
+          }, remainingTime);
+        });
+
+        // Initialize animations that work on any page
+        setTimeout(() => {
+          this.initializeScrollAnimations();
+          // REMOVED: this.initializeTableAnimations(); - this was causing bugs
+          this.initializeHeaderScroll();
+        }, 3000);
+      }
+
+      initializeHeaderScroll() {
+        let lastScrollY = window.scrollY;
+
+        const updateHeader = () => {
+          if (!this.header) return;
+
+          const currentScrollY = window.scrollY;
+
+          if (currentScrollY > 100) {
+            this.header.style.background = 'rgba(255, 255, 255, 0.98)';
+            this.header.style.boxShadow = '0 8px 32px rgba(30, 64, 175, 0.15)';
+          } else {
+            this.header.style.background = 'rgba(255, 255, 255, 0.95)';
+            this.header.style.boxShadow = '0 4px 20px rgba(30, 64, 175, 0.1)';
+          }
+
+          if (currentScrollY > lastScrollY && currentScrollY > 200) {
+            this.header.style.transform = 'translateY(-100%)';
+          } else {
+            this.header.style.transform = 'translateY(0)';
+          }
+
+          lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', updateHeader);
+      }
+    }
+
+    // Table view functions - Fixed and simplified
+    function showFullTable(event) {
+      const fullTable = document.getElementById('fullTable');
+      const mobileTable = document.getElementById('mobileTable');
+
+      if (fullTable && mobileTable) {
+        fullTable.style.display = 'block';
+        mobileTable.style.display = 'none';
+
+        // Update button states
+        document.querySelectorAll('.table-btn').forEach(btn => btn.classList.remove('active'));
+        if (event && event.target) {
+          const button = event.target.closest('.table-btn');
+          if (button) {
+            button.classList.add('active');
+          }
+        }
+      }
+    }
+
+   
+
+    // Handle responsive table display
+    function handleResponsiveTable() {
+      const fullTable = document.getElementById('fullTable');
+      const mobileTable = document.getElementById('mobileTable');
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        if (fullTable) fullTable.style.display = 'block'; // Keep table visible on mobile
+        if (mobileTable) mobileTable.style.display = 'none'; // Hide empty mobile view
+      } else {
+        if (fullTable) fullTable.style.display = 'block';
+        if (mobileTable) mobileTable.style.display = 'none';
+      }
+    }
+
+    // Initialize everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize the loading manager
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+
+      // REMOVED: Table animation code that was causing disappearing issues
+
+      // Add smooth scrolling to any internal links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Initialize responsive table handling
+      handleResponsiveTable();
+
+      // Ensure table is always visible
+      const tableWrapper = document.getElementById('fullTable');
+      if (tableWrapper) {
+        tableWrapper.style.display = 'block';
+        tableWrapper.style.visibility = 'visible';
+        tableWrapper.style.opacity = '1';
+      }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', handleResponsiveTable);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Only clear cookies if they're set to a non-Korean language (SMART CLEARING)
+      const currentCookie = getCookie('googtrans');
+      if (currentCookie && currentCookie !== '/auto/ko' && currentCookie !== '') {
+        clearTranslateCookies();
+      }
+
+      // Your existing loading manager and other initialization
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+
+      setTimeout(() => {
+        initializeScrollAnimations();
+        initializeCarousel();
+        initializeHeaderScroll();
+      }, 3000);
+
+
+    });
+
+    // Get cookie value
+    function getCookie(name) {
+      const value = "; " + document.cookie;
+      const parts = value.split("; " + name + "=");
+      if (parts.length === 2) return parts.pop().split(";").shift();
+      return null;
+    }
+
+    // Clear Google Translate cookies (LESS AGGRESSIVE)
+    function clearTranslateCookies() {
+      const cookiesToDelete = ['googtrans'];
+
+      cookiesToDelete.forEach(cookieName => {
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname};`;
+      });
+    }
+
+   
+  </script>
+</body>
+</html>
