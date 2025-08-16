@@ -1,1 +1,822 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KCBS 시카고 | 기독교 라디오</title>
+  <meta name="description" content="KCBS 시카고 - 한국 기독교 방송국" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3730a3;
+      --accent-color: #0891b2;
+      --accent-light: #0284c7;
+      --warm-accent: #dc2626;
+      --gold-accent: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-dark: #1f2937;
+      --surface: rgba(255, 255, 255, 0.1);
+      --surface-hover: rgba(255, 255, 255, 0.15);
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.2);
+      --header-height: 100px;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+
+    }
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      animation: logoSpin 2s linear infinite;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--text-primary);
+      border-radius: 50%;
+      margin: 0 auto 1rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Content */
+    #main-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease-in-out;
+      margin-top: var(--header-height);
+      padding: 2rem;
+      min-height: calc(100vh - var(--header-height) - 4rem);
+      position: relative;
+      z-index: 1;
+    }
+
+    #main-content.loaded {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .header.animate-in {
+      animation: slideDownHeader 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes slideDownHeader {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 100%;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+      opacity: 0;
+      transform: scale(0.5) rotate(-180deg);
+    }
+
+    .logo.animate-in {
+      animation: logoAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+    }
+
+    @keyframes logoAppear {
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .nav-link.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .nav-link:nth-child(1).animate-in { animation-delay: 0.5s; }
+    .nav-link:nth-child(2).animate-in { animation-delay: 0.6s; }
+    .nav-link:nth-child(3).animate-in { animation-delay: 0.7s; }
+    .nav-link:nth-child(4).animate-in { animation-delay: 0.8s; }
+    .nav-link:nth-child(5).animate-in { animation-delay: 0.9s; }
+    .nav-link:nth-child(6).animate-in { animation-delay: 1.0s; }
+
+    @keyframes navItemSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 80%;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    }
+
+    .nav-link.active.animate-in {
+      animation: navItemSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+        activePulse 2s ease-in-out infinite 2s;
+    }
+
+    @keyframes activePulse {
+      0%, 100% {
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 25px rgba(30, 64, 175, 0.5);
+      }
+    }
+    /* Content Styling */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-accent), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .content-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .content-card:hover {
+      background: var(--surface-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(30, 64, 175, 0.25);
+      border-color: var(--gold-accent);
+    }
+
+    /* Enhanced Responsive Design - Matching play.html pattern */
+    @media (max-width: 768px) {
+      :root {
+        --header-height: 140px;
+      }
+
+      .header {
+        height: auto;
+        min-height: var(--header-height);
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      #main-content {
+        margin-top: 140px;
+        padding: 1rem;
+        min-height: calc(100vh - 140px - 2rem);
+      }
+
+      .page-header {
+        margin-top: 50px;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+      }
+
+      .page-subtitle {
+        font-size: 1rem;
+      }
+
+      .content-card {
+        padding: 2rem 1rem;
+      }
+      body {
+        min-height: -webkit-fill-available;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --header-height: 160px;
+      }
+      body {
+        min-height: -webkit-fill-available;
+      }
+
+      .header {
+        height: auto;
+        min-height: var(--header-height);
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+      }
+
+      #main-content {
+        margin-top: 160px;
+        padding: 0.75rem;
+        min-height: calc(100vh - 160px - 1.5rem);
+      }
+      .page-header {
+        margin-top: 100px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .content-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .loading-logo {
+        width: 60px;
+        height: 60px;
+      }
+
+      .loading-text {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+      }
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom:35px;
+    }
+    .team-member {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transform: translateY(50px) scale(0.95);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+  
+    .team-member:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-0.1px) scale(1);
+      box-shadow: 0 20px 60px rgba(30, 64, 175, 0.25);
+      border-color: var(--gold-accent);
+    }
+
+    .team-member:hover::before {
+      opacity: 1;
+    }
+    .member-photo {
+      position: relative;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    .member-photo::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      background: linear-gradient(45deg, var(--gold-accent), var(--accent-color));
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .member-photo:hover::before {
+      opacity: 0.3;
+    }
+
+    .member-photo img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold-accent);
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .member-photo:hover img {
+      transform: scale(1.05);
+      border-color: white;
+    }
+
+    .member-name {
+      font-size: 1.375rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+      .member-description {
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+        margin-top: 1.5rem;
+        width: 100%;
+      }
+    .team-grid{
+      display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    .footer {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" class="loading-logo" />
+      <div class="loading-spinner"></div>
+      <p class="loading-text" id="loading-text">콘텐츠 로딩 중...</p>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <div class="header-content">
+      <a href="history.html" class="logo-link">
+        <img class="logo" id="logo" src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" />
+      </a>
+      <nav class="nav" id="nav">
+        <a class="nav-link" href="index.html">홈</a>
+        <a class="nav-link" href="play.html">프로그램</a>
+        <a class="nav-link" href="schedule.html">일정</a>
+        <a class="nav-link" href="messages.html">연락처</a>
+        <a class="nav-link active" href="directors.html">감독들</a>
+        <a class="nav-link" href="contributors.html">기여자</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Directors</h1>
+      <p class="page-subtitle">KCBS 시카고 임원진</p>
+    </div>
+
+    <div class="content-card">
+      <h2>이사회</h2>
+      <p>KCBS 시카고를 이끌어가는 전문 임원진들을 소개합니다.</p>
+    </div>
+    <div class="team-grid">
+      <article class="team-member visible" tabindex="0" aria-label="">
+        <div class="member-photo">
+          <img
+            id="ppl"
+            src="https://i.postimg.cc/tCKYcgqF/board-Member-4.png"
+            alt="photo of 안영배 목사"
+            width="800"
+            height="800"
+          />
+          <div class="member-overlay">
+            <span class="member-role">
+            </span>
+          </div>
+        </div>
+        <h3 class="member-name">안영배 목사</h3>
+         <div class="member-description badge" style="display: flex; flex-direction: column;">
+           <p>이사장</p>
+          </div>
+      </article>
+    <article class="team-member visible" tabindex="0" aria-label="">
+      <div class="member-photo">
+        <img
+          id="ppl"
+          src="https://i.postimg.cc/Jhq1fkkD/board-Member-2.jpg"
+          alt="#"
+          width="800"
+          height="800"
+        />
+        <div class="member-overlay">
+          <span class="member-role">
+          </span>
+        </div>
+      </div>
+      <h3 class="member-name">김영문 목사</h3>
+       <div class="member-description badge" style="display: flex; flex-direction: column;">
+          <p>총무 이사</p>
+        </div>
+    </article>
+    <article class="team-member visible" tabindex="0" aria-label="">
+      <div class="member-photo">
+        <img
+          id="ppl"
+          src="https://i.postimg.cc/Fshcfhqh/board-Member.png"
+          alt="#"
+          width="800"
+          height="800"
+        />
+        <div class="member-overlay">
+          <span class="member-role">
+          </span>
+        </div>
+      </div>
+      <h3 class="member-name">김동명 장로</h3>
+       <div class="member-description badge" style="display: flex; flex-direction: column;">
+         <p>재무 이사</p>
+        </div>
+    </article>
+      <article class="team-member" tabindex="0" aria-label="">
+        <div class="member-photo">
+          <img
+            id="ppl"
+            src="https://i.postimg.cc/Wzx0qZJz/board-Member-3.png"
+            alt="#"
+            width="800"
+            height="800"
+          />
+          <div class="member-overlay">
+            <span class="member-role">
+            </span>
+          </div>
+        </div>
+        <h3 class="member-name">서도권 목사</h3>
+         <div class="member-description badge" style="display: flex; flex-direction: column;">
+           <p>국장</p>
+          </div>
+      </article>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" class="footer-logo" />
+      <p>&copy; 2025 KCBS 시카고. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    // Enhanced Loading Manager with Proper Animation Timing
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.mainContent = document.getElementById('main-content');
+        this.header = document.getElementById('header');
+        this.logo = document.getElementById('logo');
+        this.navLinks = document.querySelectorAll('.nav-link');
+        this.loadingText = document.getElementById('loading-text');
+        this.isLoaded = false;
+
+        this.loadingMessages = [
+          '콘텐츠 로딩 중...',
+          '리소스 준비 중...',
+          '거의 완료되었습니다...',
+          '마지막 단계...'
+        ];
+        this.currentMessageIndex = 0;
+      }
+
+      updateLoadingMessage() {
+        if (this.currentMessageIndex < this.loadingMessages.length - 1) {
+          this.currentMessageIndex++;
+          this.loadingText.textContent = this.loadingMessages[this.currentMessageIndex];
+        }
+      }
+
+      hideLoadingScreen() {
+        this.loadingScreen.classList.add('fade-out');
+
+        setTimeout(() => {
+          this.mainContent.classList.add('loaded');
+          this.triggerHeaderAnimations();
+        }, 300);
+
+        this.isLoaded = true;
+      }
+
+      triggerHeaderAnimations() {
+        setTimeout(() => {
+          this.header.classList.add('animate-in');
+        }, 100);
+
+        setTimeout(() => {
+          this.logo.classList.add('animate-in');
+        }, 400);
+
+        setTimeout(() => {
+          this.navLinks.forEach(link => {
+            link.classList.add('animate-in');
+          });
+        }, 700);
+      }
+
+      init() {
+        const messageInterval = setInterval(() => {
+          this.updateLoadingMessage();
+        }, 600);
+
+        const minLoadTime = 2000;
+        const startTime = Date.now();
+
+        window.addEventListener('load', () => {
+          const elapsed = Date.now() - startTime;
+          const remainingTime = Math.max(0, minLoadTime - elapsed);
+
+          setTimeout(() => {
+            clearInterval(messageInterval);
+            this.hideLoadingScreen();
+          }, remainingTime);
+        });
+      }
+    }
+
+    // Initialize Loading Manager
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+    });
+
+    // Header scroll effect (optional)
+    function initializeHeaderScroll() {
+      let lastScrollY = window.scrollY;
+
+      function updateHeader() {
+        const header = document.querySelector('.header');
+        if (!header) return;
+
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > 100) {
+          header.style.background = 'rgba(255, 255, 255, 0.98)';
+          header.style.boxShadow = '0 8px 32px rgba(30, 64, 175, 0.15)';
+        } else {
+          header.style.background = 'rgba(255, 255, 255, 0.95)';
+          header.style.boxShadow = '0 4px 20px rgba(30, 64, 175, 0.1)';
+        }
+
+        if (currentScrollY > lastScrollY && currentScrollY > 200) {
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          header.style.transform = 'translateY(0)';
+        }
+
+        lastScrollY = currentScrollY;
+      }
+
+      window.addEventListener('scroll', updateHeader);
+    }
+
+    // Initialize header scroll effect after animations complete
+    setTimeout(() => {
+      initializeHeaderScroll();
+    }, 3000);
+
+    document.addEventListener('DOMContentLoaded', function() {
+    });
+  </script>
+</body>
+</html>
