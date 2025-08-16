@@ -1,1 +1,998 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KCBS History | 기독교 라디오</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
 
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 로고" class="loading-logo" />
+      <div class="loading-spinner"></div>
+      <p class="loading-text" id="loading-text">콘텐츠 로딩 중...</p>
+    </div>
+  </div>
+
+  <header class="header" id="header">
+    <a href="#" onclick="goBack()" class="back-arrow" id="back-arrow">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <span>돌아가기</span>
+    </a>
+    
+    <img
+      class="logo" id="logo"
+      src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj"
+      alt="KCBS 시카고 로고"
+    />
+  </header>
+  <div id="google_translate_element" style="display: none;"></div>
+  <main class="content" id="main-content">
+    <section class="hero-section animate-on-scroll">
+      <h1 class="hero-title">KCBS 시카고 역사</h1>
+      <p class="hero-subtitle">시카고 지역사회를 위한 기독교 방송의 여정</p>
+    </section>
+
+    <section class="history-content animate-on-scroll">
+      <div class="history-card">
+        <h2 class="animate-on-scroll">우리의 이야기</h2>
+        <p class="animate-on-scroll stagger-delay-1">KCBS 시카고 방송은 1978년에 시작되어 시카고 지역 최초의 한인 기독교 방송국이 되었습니다. 지난 47년간 우리는 시카고 한인 공동체의 영적 성장과 문화적 연결고리 역할을 해왔습니다.</p>
+      </div>
+      
+      <div class="history-card animate-on-scroll">
+        <h2 class="animate-on-scroll">우리의 영향력</h2>
+        <p class="animate-on-scroll stagger-delay-2">우리는 시카고와 주변 지역의 한인 공동체에 복음을 전하며 삶의 희망과 위로를 전달하고 있습니다.</p>
+        
+        <div class="frequency-grid animate-on-scroll stagger-delay-3">
+          <div class="frequency-card">
+            <div class="frequency-icon">
+              <ion-icon name="radio-outline"></ion-icon>
+            </div>
+            <h3>AM 1590 KHz</h3>
+            <p>우리의 주요 라디오 주파수</p>
+          </div>
+          
+          <div class="frequency-card">
+            <div class="frequency-icon">
+              <ion-icon name="radio-outline"></ion-icon>
+            </div>
+            <h3>FM 95.9 MHz</h3>
+            <p>확장된 커버리지</p>
+          </div>
+          
+          <div class="frequency-card">
+            <div class="frequency-icon">
+              <ion-icon name="logo-youtube"></ion-icon>
+            </div>
+            <h3>YouTube 채널</h3>
+            <p>현대를 위한 디지털 사역</p>
+          </div>
+          
+          <div class="frequency-card">
+            <div class="frequency-icon">
+              <ion-icon name="globe-outline"></ion-icon>
+            </div>
+            <h3>온라인 플랫폼</h3>
+            <p>전 세계 청중과의 연결</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-card animate-on-scroll">
+        <h2 class="animate-on-scroll">우리의 사명</h2>
+        <div class="mission-quote animate-on-scroll stagger-delay-1">
+          <blockquote>
+            "우리의 목표는 다른 사람들을 하나님께 더 가까이 인도하고 예수 그리스도의 사랑을 전파하는 것입니다. 매일 우리는 한 영혼이라도 더 구원받기를 기도하며 방송합니다."
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="history-card animate-on-scroll">
+        <h2 class="animate-on-scroll">우리가 하는 일</h2>
+        
+        <div class="services-grid">
+          <div class="service-item animate-on-scroll stagger-delay-1">
+            <div class="service-icon">
+              <ion-icon name="radio-outline"></ion-icon>
+            </div>
+            <h3>라디오 방송</h3>
+            <ul>
+              <li>한국어 기독교 음악과 설교</li>
+              <li>매일 기도 시간</li>
+              <li>교회 예배 중계</li>
+            </ul>
+          </div>
+
+          <div class="service-item animate-on-scroll stagger-delay-2">
+            <div class="service-icon">
+              <ion-icon name="megaphone-outline"></ion-icon>
+            </div>
+            <h3>지역사회 서비스</h3>
+            <ul>
+              <li>지역 한인 뉴스</li>
+              <li>미국 생활 정보</li>
+              <li>커뮤니티 행사 안내</li>
+            </ul>
+          </div>
+
+          <div class="service-item animate-on-scroll stagger-delay-3">
+            <div class="service-icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+            <h3>가족 프로그램</h3>
+            <ul>
+              <li>성경 공부</li>
+              <li>청소년 프로그램</li>
+              <li>한국 문화 프로그램</li>
+            </ul>
+          </div>
+           <div class="service-row-center" style="grid-column: 1 / -1;">
+          <div class="service-item animate-on-scroll stagger-delay-4">
+            <div class="service-icon">
+              <ion-icon name="laptop-outline"></ion-icon>
+            </div>
+            <h3>디지털 사역</h3>
+            <ul>
+              <li>YouTube 비디오</li>
+              <li>소셜 미디어</li>
+              <li>실시간 스트리밍</li>
+            </ul>
+          </div>
+
+          <div class="service-item animate-on-scroll stagger-delay-1">
+            <div class="service-icon">
+              <ion-icon name="heart-outline"></ion-icon>
+            </div>
+            <h3>개인적 도움</h3>
+            <ul>
+              <li>기도 요청 지원</li>
+              <li>인생 상담</li>
+              <li>공동체 연결</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="history-card animate-on-scroll">
+        <h2 class="animate-on-scroll">우리의 마음</h2>
+        <div class="heart-message animate-on-scroll stagger-delay-1">
+          <div class="quote-highlight">
+            <ion-icon name="heart"></ion-icon>
+            <em>"KCBS는 오늘도 한 영혼이라도 더 예수님의 사랑을 알게 되기를 기도합니다."</em>
+          </div>
+          <p>이 간단한 기도가 우리의 본질을 담고 있습니다. 우리는 단순히 방송국이 아니라, 하나님의 사랑을 전하는 도구입니다. 45년이 넘는 시간 동안 변함없이 이 사명을 품고 달려왔으며, 앞으로도 계속해서 시카고 한인 공동체와 함께 걸어가겠습니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <img src="https://yt3.ggpht.com/lI8FFl74EiTYob_IVSKquVAFFoCs70sfcwTCFUGwkz04BkBoiQ9cIQLilbdgMm5iH1iRwwRc=s88-c-k-c0x00ffffff-no-rj" alt="KCBS 시카고 로고" class="footer-logo" />
+      <p>&copy; 2025 KCBS 시카고. All rights reserved.</p>
+    </div>
+  </footer>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3730a3;
+      --accent-color: #0891b2;
+      --accent-light: #0284c7;
+      --warm-accent: #dc2626;
+      --gold-accent: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --text-dark: #1f2937;
+      --surface: rgba(255, 255, 255, 0.1);
+      --surface-hover: rgba(255, 255, 255, 0.15);
+      --glass: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow-md: 0 4px 15px rgba(78, 205, 196, 0.3);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      animation: loadingPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      animation: logoSpin 2s linear infinite;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--text-primary);
+      border-radius: 50%;
+      margin: 0 auto 1rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes logoSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Main Content */
+    #main-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease-in-out;
+    }
+
+    #main-content.loaded {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 90px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .header.animate-in {
+      animation: slideDownHeader 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes slideDownHeader {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .back-arrow {
+      color: var(--text-primary);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateX(-20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .back-arrow.animate-in {
+      animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    }
+
+    @keyframes slideInLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .back-arrow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    .back-arrow:hover::before {
+      left: 100%;
+    }
+
+    .back-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .back-arrow:hover::after {
+      width: 80%;
+    }
+
+    .back-arrow:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .back-arrow ion-icon {
+      font-size: 20px;
+      z-index: 3;
+      position: relative;
+    }
+
+    .back-arrow span {
+      z-index: 3;
+      position: relative;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scale(0.5) rotate(-180deg);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .logo.animate-in {
+      animation: logoAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards;
+    }
+
+    @keyframes logoAppear {
+      to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+      }
+    }
+
+    /* Content */
+    .content {
+      margin-top: 130px;
+      padding: 40px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Scroll Animation Classes */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-delay-1 { transition-delay: 0.1s; }
+    .stagger-delay-2 { transition-delay: 0.2s; }
+    .stagger-delay-3 { transition-delay: 0.3s; }
+    .stagger-delay-4 { transition-delay: 0.4s; }
+
+    /* Hero Section */
+    .hero-section {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      padding: 60px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      text-align: center;
+      margin-bottom: 40px;
+      transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 32px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--gold-accent), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* History Content */
+    .history-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .history-card {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .history-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 32px 60px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent-color);
+    }
+
+    .history-card h2 {
+      font-size: 2rem;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .history-card p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Frequency Grid */
+    .frequency-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .frequency-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .frequency-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+      border-color: var(--accent-color);
+    }
+
+    .frequency-icon {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .frequency-card h3 {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .frequency-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Mission Quote */
+    .mission-quote blockquote {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      border-left: 4px solid var(--gold-accent);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .mission-quote blockquote:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(4px);
+    }
+
+    /* Services Grid - 3 on top, 2 centered on bottom */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-row-center {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .service-row-center .service-item {
+      width: 100%;
+      max-width: 300px;
+    }
+
+
+
+    .service-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+      border-color: var(--accent-color);
+    }
+
+    .service-icon {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .service-item h3 {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .service-item ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .service-item li {
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .service-item li::before {
+      content: '•';
+      color: var(--accent-color);
+      position: absolute;
+      left: 0;
+    }
+
+    /* Heart Message */
+    .heart-message {
+      text-align: center;
+    }
+
+    .quote-highlight {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(249, 115, 22, 0.1));
+      border-radius: 16px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      margin-bottom: 2rem;
+    }
+
+    .quote-highlight ion-icon {
+      font-size: 2rem;
+      color: var(--gold-accent);
+    }
+
+    .quote-highlight em {
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      backdrop-filter: blur(20px);
+      color: var(--text-primary);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.875rem;
+      font-weight: 500;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+        height: 75px;
+      }
+      
+      .content {
+        margin-top: 95px;
+        padding: 20px;
+      }
+      
+      .hero-section {
+        padding: 40px 30px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .history-card {
+        padding: 2rem;
+      }
+
+      .frequency-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .service-item:nth-child(4),
+      .service-item:nth-child(5) {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .services-grid::after {
+        display: none;
+      }
+
+      .quote-highlight {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .history-card {
+        padding: 1.5rem;
+      }
+
+      .quote-highlight em {
+        font-size: 1.1rem;
+      }
+    }
+    /* Medium screens - 2x2 + 1 centered */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto auto;
+        justify-items: center;
+      }
+
+      .service-item:nth-child(1),
+      .service-item:nth-child(2) {
+        grid-row: 1;
+      }
+
+      .service-item:nth-child(3),
+      .service-item:nth-child(4) {
+        grid-row: 2;
+      }
+
+      .service-item:nth-child(5) {
+        grid-column: 1 / 3;
+        grid-row: 3;
+        max-width: 50%;
+      }
+
+      .services-grid::after {
+        display: none;
+      }
+    }
+    .footer {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+    }
+
+    .footer-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+  </style>
+
+  <script>
+    // Enhanced Loading Manager
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.mainContent = document.getElementById('main-content');
+        this.header = document.getElementById('header');
+        this.logo = document.getElementById('logo');
+        this.backArrow = document.getElementById('back-arrow');
+        this.loadingText = document.getElementById('loading-text');
+        
+        this.loadingMessages = [
+          '콘텐츠 로딩 중...',
+          '히스토리 준비 중...',
+          '거의 완료되었습니다...',
+          '마지막 단계...'
+        ];
+        this.currentMessageIndex = 0;
+      }
+
+      updateLoadingMessage() {
+        if (this.currentMessageIndex < this.loadingMessages.length - 1) {
+          this.currentMessageIndex++;
+          this.loadingText.textContent = this.loadingMessages[this.currentMessageIndex];
+        }
+      }
+
+      hideLoadingScreen() {
+        this.loadingScreen.classList.add('fade-out');
+        
+        setTimeout(() => {
+          this.mainContent.classList.add('loaded');
+          this.triggerHeaderAnimations();
+        }, 300);
+      }
+
+      triggerHeaderAnimations() {
+        setTimeout(() => {
+          this.header.classList.add('animate-in');
+        }, 100);
+        
+        setTimeout(() => {
+          this.logo.classList.add('animate-in');
+        }, 400);
+        
+        setTimeout(() => {
+          this.backArrow.classList.add('animate-in');
+        }, 600);
+      }
+
+      init() {
+        const messageInterval = setInterval(() => {
+          this.updateLoadingMessage();
+        }, 600);
+
+        const minLoadTime = 1500;
+        const startTime = Date.now();
+        
+        window.addEventListener('load', () => {
+          const elapsed = Date.now() - startTime;
+          const remainingTime = Math.max(0, minLoadTime - elapsed);
+          
+          setTimeout(() => {
+            clearInterval(messageInterval);
+            this.hideLoadingScreen();
+          }, remainingTime);
+        });
+      }
+    }
+
+    // Initialize Loading Manager
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+      
+      // Initialize scroll animations after loading
+      setTimeout(() => {
+        initializeScrollAnimations();
+        showToast('📚 KCBS 시카고 역사 페이지에 오신 것을 환영합니다!');
+      }, 2000);
+    });
+
+    // Go Back Function
+    function goBack() {
+      const referrer = document.referrer;
+
+      if (referrer.includes('index.html')) {
+        window.location.href = 'index.html?backAnimation=true';
+      } else if (referrer.includes('messages.html')) {
+        window.location.href = 'messages.html?backAnimation=true';
+      } else if (referrer.includes('play.html')) {
+        window.location.href = 'play.html?backAnimation=true';
+      } else if (referrer.includes('schedule.html')) {
+        window.location.href = 'schedule.html?backAnimation=true';
+      } else if (referrer.includes('contributors.html')) {
+        window.location.href = 'contributors.html?backAnimation=true';
+      } else if (referrer.includes('directors.html')) {
+        window.location.href = 'directors.html?backAnimation=true';
+      } else {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+    }
+
+    // Scroll Animations
+    function initializeScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          } else {
+            // Re-trigger animations when scrolling back up
+            entry.target.classList.remove('visible');
+          }
+        });
+      }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    // Toast Function
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastMessage.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Only clear cookies if they're set to a non-Korean language (SMART CLEARING)
+      const currentCookie = getCookie('googtrans');
+      if (currentCookie && currentCookie !== '/auto/ko' && currentCookie !== '') {
+        clearTranslateCookies();
+      }
+
+      // Your existing loading manager and other initialization
+      const loadingManager = new LoadingManager();
+      loadingManager.init();
+
+      setTimeout(() => {
+        initializeScrollAnimations();
+        initializeCarousel();
+        initializeHeaderScroll();
+      }, 3000);
+
+    });
+
+    
+  </script>
+</body>
+</html>
