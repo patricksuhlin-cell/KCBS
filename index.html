@@ -612,12 +612,8 @@
     }
 
     .action-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows:1fr;
-      gap: 1rem;
-      max-width: 800px;
-      margin: 0 auto;
+     display:flex;
+      justify-content:space-between;
     }
 
     .action-button {
@@ -1001,9 +997,7 @@
         padding: 1rem;
       }
 
-      .action-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+     
 
       .map-header {
         flex-direction: column;
@@ -1074,9 +1068,7 @@
         grid-template-columns: 1fr;
       }
 
-      .action-grid {
-        grid-template-columns: 1fr;
-      }
+    
     }
 
     /* Accessibility */
